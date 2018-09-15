@@ -33,8 +33,19 @@ class TodoList extends Component {
                 <ListGroup>
                     <TransitionGroup className="todo-list">
                     {items.map(({ id, name }) => (
-                        <CSSTransition key={id} timeout={500} classNames="fade">
+                        <CSSTransition key={id} timeout={700} classNames="fade">
                             <ListGroupItem>
+                                <Button
+                                    className="remove-btn"
+                                    color="danger"
+                                    size="sm"
+                                    onClick={() => {
+                                        this.setState(state => ({
+                                            items: state.items.filter(item => item.id !==id),
+                                            
+                                        }));
+                                    }}
+                                >&times;</Button>
                                 {name} 
                             </ListGroupItem>
                         </CSSTransition>
