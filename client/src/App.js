@@ -4,14 +4,18 @@ import './App.css';
 import './components/AppNavBar';
 import AppNavbar from './components/AppNavBar';
 import ToDoList from './components/TodoList';
+import { Provider } from 'react-redux';
+import store from './store';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-          <AppNavbar></AppNavbar>
-          <ToDoList></ToDoList>
+      <Provider store={store}>
+        <div className="App">
+          <AppNavbar />
+          <ToDoList/>
       </div>
+      </Provider>
     );
   }
 }

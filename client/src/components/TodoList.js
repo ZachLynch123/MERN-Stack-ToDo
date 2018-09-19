@@ -2,19 +2,21 @@ import React, { Component } from 'react';
 import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap'
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import uuid from 'uuid';
+// gets state from state from redux to react component
+import { connect } from 'react-redux';
+import { getItems } from '../actions/itemActions';
+import PropTypes from 'prop-types';
 
 class TodoList extends Component {
-    state = {
-        items: [
-            { id: uuid(), name: 'Eggs'},
-            { id: uuid(), name: 'Milk'},
-            { id: uuid(), name: 'Steak'},
-            { id: uuid(), name: 'Orginize freezer'}
-        ]
+    
+    // React lifecycle method ran when the component mounts
+    // ran whenever you make api request or calling action
+    componentDidMount() {
+        this.props.getItems();
     }
 
     render() {
-        const { items } = this.state;
+        const { items } = this.props.item;
         return (
             <Container>
                 <Button
@@ -57,4 +59,18 @@ class TodoList extends Component {
     }
 }
 
-export default TodoList;
+TodoList.propTypes = {
+    // 2 props in this component, getItems(action) 
+    getItems: PropTypes.func.isRequired,
+    item: PropTypes.object.isRequired
+}
+
+const mapStateToProps = (state) => ({
+    // using 'item' because thats the name given to the reducder
+    // in root reducer  
+    item: state.item
+}) 
+
+
+// takes in a function and any actions, in this case it's just getItems
+export default connect(mapStateToProps, { getItems })(TodoList);
