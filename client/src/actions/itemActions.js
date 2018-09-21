@@ -10,5 +10,13 @@ export const getItems = () => {
         // if sending use something like 
         // payload: res.dataFromServer
     };
+};
+
+export const deleteItem = (id) => {
+    return {
+        type: DELETE_ITEM,
+        payload: id
+    };
 }
+
 

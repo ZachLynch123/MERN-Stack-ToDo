@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap'
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import uuid from 'uuid';
 // gets state from state from redux to react component
 import { connect } from 'react-redux';
-import { getItems } from '../actions/itemActions';
+import { getItems, deleteItem } from '../actions/itemActions';
 import PropTypes from 'prop-types';
 
 class TodoList extends Component {
@@ -13,6 +12,10 @@ class TodoList extends Component {
     // ran whenever you make api request or calling action
     componentDidMount() {
         this.props.getItems();
+    }
+
+    onDeleteClick = (id) => {
+        this.props.deleteItem(id);
     }
 
     render() {
@@ -26,7 +29,6 @@ class TodoList extends Component {
                         const name = prompt('Enter Item');
                         if (name) {
                             this.setState(state => ({
-                                items: [...state.items, { id: uuid(), name}]
                             }));
                         }
                     }}
@@ -41,12 +43,7 @@ class TodoList extends Component {
                                     className="remove-btn"
                                     color="danger"
                                     size="sm"
-                                    onClick={() => {
-                                        this.setState(state => ({
-                                            items: state.items.filter(item => item.id !==id),
-                                            
-                                        }));
-                                    }}
+                                    onClick={this.onDeleteClick.bind(this, id)}
                                 >&times;</Button>
                                 {name} 
                             </ListGroupItem>
@@ -73,4 +70,6 @@ const mapStateToProps = (state) => ({
 
 
 // takes in a function and any actions, in this case it's just getItems
-export default connect(mapStateToProps, { getItems })(TodoList);
+export default connect(mapStateToProps, 
+    { getItems, deleteItem }
+    )(TodoList);
